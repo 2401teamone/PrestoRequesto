@@ -1,4 +1,6 @@
 // const config = require("./config");
+require("dotenv").config()
+
 const { Client } = require("pg");
 
 const logQuery = (statement, parameters) => {
@@ -9,7 +11,7 @@ const logQuery = (statement, parameters) => {
 
 // const isProduction = (config.NODE_ENV === "production");
 const CONNECTION = {
-  connectionString: 'postgres://joshlakenan@localhost:5432/main',
+  connectionString: `postgres://${process.env.DB_USERANDPASS}@localhost:5432/main`,
   //ssl: isProduction,  // See note below
   // ssl: { rejectUnauthorized: false },
   // ssl: isProduction ? { rejectUnauthorized: false } : false
