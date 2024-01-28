@@ -1,0 +1,15 @@
+CREATE TABLE bin (
+  id SERIAL PRIMARY KEY,
+  bin_id VARCHAR(50) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  live BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+CREATE TABLE log (
+  id SERIAL PRIMARY KEY,
+  bin_id INT REFERENCES bin(id),
+  method VARCHAR(15) NOT NULL,
+  path VARCHAR(255),
+  received_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  mongo_id TEXT
+);
