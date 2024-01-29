@@ -29,6 +29,11 @@ function generateEndpoint() {
   return endpoint;
 }
 
+//Generates a standard JSON package to return to the front end
+function packagePayload(status, message, payload) {
+  return { status, message, payload };
+}
+
 // Takes an express req object and returns a JSON representation of the received HTTP request
 const getJSONRequest = req => {
   const requestCopy = {...req};
@@ -56,11 +61,13 @@ app.post("/api/bin", async (req, res) => {
 
     console.log("bin Created");
 
-    res.json(endpoint);
+
+
+    res.json(packagePayload(200, "bin created", {endpoint}));
   } catch (error) {
     console.log(error);
 
-    res.status(500).json({message: "Internal Server Error. Could not create bin"});
+    res.status(500).json(packagePayload(500, "Internal Server Error. Could not create bin"));
   }
   //return the binId
 });
@@ -84,7 +91,7 @@ app.get('/api/bin/:bin_id/logs', async (req, res) => {
     requests = await dbQuery(getAllRequestsQuery, bin_id);
 
     //return the log entries as JSON
-    res.json(requests.rows);
+    res.json(packagePayload(200, "bin logs retrieved", {logs : requests.rows}));
 
   } catch (error) {
     //return a 404 if there is no endpoint found
@@ -107,7 +114,7 @@ app.get('/api/bin/:bin_id/log/:mongo_id', async (req, res) => {
       throw new Error("No Request Found");
     }
     // Return the JSON request
-    res.json(JSONRequest);
+    res.json(packagePayload(200, "request retrieved", {request : JSONRequest}));
   } catch (error) {
     if (error.message === "No Request Found") {
       res.status(404).json({message: "Request Not Found"});
@@ -162,7 +169,7 @@ app.all('/endpoint/:endpoint/:path*?', async (req, res) => {
     // Use server sent event to update front end - TODO
 
     // Send 200 ok
-    res.sendStatus(200);
+    res.json(packagePayload(200, "Request logged"));
 
   } catch (error) {
     console.log(error);
