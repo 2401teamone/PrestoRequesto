@@ -2,15 +2,24 @@ const express = require("express");
 const app = express();
 const crypto = require('crypto');
 const { dbQuery } = require("./db-query");
+const mongo = require('./mongo-query');
+const morgan = require('morgan');
 const port = 3000;
 
+//morgan logging middleware
+app.use(morgan('dev'));
+//serve static files
 app.use('/', express.static('dist'));
 app.use('/:bin_id', express.static('dist'));
+//json parsing middleware
+app.use(express.json());
+
 
 app.get("/", (req, res) => {
   console.log('Hello Wold');
 });
 
+//generates a new unique endpoint, using the current time and a random value
 function generateEndpoint() {
   const currentTimestamp = new Date().toISOString();
   const randomValue = Math.random().toString();
@@ -20,7 +29,21 @@ function generateEndpoint() {
   return endpoint;
 }
 
-//Create bin button
+// Takes an express req object and returns a JSON representation of the received HTTP request
+const getJSONRequest = req => {
+  const requestCopy = {...req};
+
+  return {
+    method: requestCopy.method,
+    headers: requestCopy.headers,
+    query: requestCopy.query,
+    params: requestCopy.params,
+    cookies: requestCopy.cookies,
+    body: requestCopy.body,
+  };
+};
+
+//Create a new Bin / User endpoint
 app.post("/api/bin", async (req, res) => {
   //create the unique hash / id
   const endpoint = generateEndpoint();
@@ -43,26 +66,76 @@ app.post("/api/bin", async (req, res) => {
 });
 
 // Get bin page where the user can view their logged HTTP requests
-app.get('/api/bin/:endpoint/logs', (req, res) => {
-  //query Postgres log table for the given endpoint
+app.get('/api/bin/:bin_id/logs', async (req, res) => {
+  bin_id = +req.params.bin_id;
+  try {
+    //check that a bin exists with the given bin_id
+    const binCheckQuery = 'SELECT * FROM bin WHERE id = $1;';
 
-  //return a 404 if there is no endpoint found
+    let result = await dbQuery(binCheckQuery, bin_id);
 
-  //return the log entries as JSON
+    if (result.rowCount === 0) {
+      throw new Error("No Bin ID Found");
+    }
+
+    //Get the requests from the log table for the given bin_id
+    const getAllRequestsQuery = `SELECT * FROM log WHERE bin_id = $1;`;
+
+    requests = await dbQuery(getAllRequestsQuery, bin_id);
+
+    //return the log entries as JSON
+    res.json(requests.rows);
+
+  } catch (error) {
+    //return a 404 if there is no endpoint found
+    if (error.message === "No Bin ID Found") {
+      res.status(404).json({message: "Bin Not Found"});
+      console.log(error);
+    } else {
+      console.log(error);
+    }
+  }
 });
 
 // Get the detailed Request JSON from mongo
-app.get('/api/bin/:bin_id/logs/:log_id', (req, res) => {
+app.get('/api/bin/:bin_id/log/:mongo_id', async (req, res) => {
+  mongo_id = req.params.mongo_id;
   //query mongo for the http request details
+  try {
+    let JSONRequest = await mongo.find('requests', mongo_id);
+    if (!JSONRequest) {
+      throw new Error("No Request Found");
+    }
+    // Return the JSON request
+    res.json(JSONRequest);
+  } catch (error) {
+    if (error.message === "No Request Found") {
+      res.status(404).json({message: "Request Not Found"});
 
-  //return them
+      console.log(error);
+      //else if the error is a BSONError, send a 400
+    } else if (error.name === "MongoError") {
+      console.log(error);
+      res.status(400).json({message: "Bad Reqeust"});
+    }
+  }
 });
+
+// Delete a single request from a given bin's log
+
+// Delete all the requests from a given bin's log
+
+// send a test request to a bin
+
+
 
 // Collection route
 app.all('/endpoint/:endpoint/:path*?', async (req, res) => {
   // Collect meta data from the request
   let {endpoint, path} = req.params;
   const method = req.method;
+  const JSONRequest = getJSONRequest(req);
+  console.log(JSONRequest);
 
   // Append path remaining path if it exists
   path = req.params['0'] ? path + req.params['0'] : path;
@@ -77,12 +150,13 @@ app.all('/endpoint/:endpoint/:path*?', async (req, res) => {
     }
 
     // If it does exist, insert the http request into mongo - TODO
+    const mongo_id = await mongo.insert('requests', JSONRequest);
 
     // Insert into postgres
-    const insert = `INSERT INTO log (bin_id, method, path)
-    VALUES($1, $2, $3)`;
+    const insert = `INSERT INTO log (bin_id, method, path, mongo_id)
+    VALUES($1, $2, $3, $4)`;
 
-    await dbQuery(insert, result.rows[0].id, method, path);
+    await dbQuery(insert, result.rows[0].id, method, path, mongo_id);
     console.log('Log inserted');
 
     // Use server sent event to update front end - TODO
