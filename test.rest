@@ -1,7 +1,10 @@
+### Create a new bin
 POST http://localhost:3000/api/bin
-###
+### Test a request with a simple path
 GET http://localhost:3000/endpoint/b4cbcb14d05b41beb6a87a496628c61b/testPath
-###
+### Test a request with no path
 POST http://localhost:3000/endpoint/b4cbcb14d05b41beb6a87a496628c61b
-###
+### Test a request with a multi level path
 PUT http://localhost:3000/endpoint/b4cbcb14d05b41beb6a87a496628c61b/level1/level2/level3
+### Test a non existant endpoint
+PUT http://localhost:3000/endpoint/doesntexist/level1/level2/level3
