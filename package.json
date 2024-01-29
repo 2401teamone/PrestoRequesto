@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "data_setup": "psql -d main < schema.sql",
+    "data_setup": "psql -d main < schema.sql && psql -d main < seed.sql",
+    "data_reset": "psql -d main < drop_tables.sql && psql -d main < schema.sql && psql -d main < seed.sql",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

@@ -1,0 +1,1 @@
+INSERT INTO bin (endpoint) VALUES('b4cbcb14d05b41beb6a87a496628c61b');
