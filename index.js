@@ -74,7 +74,7 @@ app.post("/api/bin", async (req, res) => {
 
 // Get bin page where the user can view their logged HTTP requests
 app.get('/api/bin/:bin_id/logs', async (req, res) => {
-  bin_id = +req.params.bin_id;
+  let bin_id = +req.params.bin_id;
   try {
     //check that a bin exists with the given bin_id
     const binCheckQuery = 'SELECT * FROM bin WHERE id = $1;';
@@ -106,7 +106,7 @@ app.get('/api/bin/:bin_id/logs', async (req, res) => {
 
 // Get the detailed Request JSON from mongo
 app.get('/api/bin/:bin_id/log/:mongo_id', async (req, res) => {
-  mongo_id = req.params.mongo_id;
+  let mongo_id = req.params.mongo_id;
   //query mongo for the http request details
   try {
     let JSONRequest = await mongo.find('requests', mongo_id);
@@ -129,9 +129,40 @@ app.get('/api/bin/:bin_id/log/:mongo_id', async (req, res) => {
 });
 
 // Delete a single request from a given bin's log
+app.delete('/api/bin/:bin_id/log/:log_id', async (req, res) => {
+  let log_id = req.params.log_id;
+  try {
+    const getMongoID = `SELECT * FROM log WHERE id = $1`;
+    let results = await dbQuery(getMongoID, log_id);
 
+    if (results.rowCount === 0) {
+      throw new Error("No Log Found");
+    }
+
+    let mongo_id = results.rows[0].mongo_id;
+    await mongo.remove("requests", mongo_id);
+    
+    const deleteQuery = `DELETE FROM log WHERE id = $1`;
+    results = await dbQuery(deleteQuery, log_id);
+    
+    res.json(packagePayload(200, "Log Deleted"));
+  } catch (error) {
+    if (error.message === "No Log Found") {
+      res.status(404).json(packagePayload(404, "Request Not Found"));
+      console.log(error);
+    }
+    // Handle MongoDB Error
+  }
+})
 // Delete all the requests from a given bin's log
+/*app.delete('/api/bin/:bin_id/log', async (req, res) => {
+  let bin_id = req.params.bin_id;
+  try {
 
+  } catch (error) {
+
+  }
+})*/
 // send a test request to a bin
 
 

@@ -61,7 +61,7 @@ async function remove(collectionName, idString) {
   const objectId = new ObjectId(idString);
 
   //Delete the record with the given id
-  const result = await collection.deleteOne(objectId);
+  const result = await collection.deleteOne({_id: objectId});
   //close the connection
   closeDatabaseConnection();
   return result;

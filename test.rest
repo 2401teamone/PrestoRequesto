@@ -25,3 +25,6 @@ GET http://localhost:3000/api/bin/1/log/65b81f5ab469391775c1c3f1
 GET http://localhost:3000/api/bin/1/log/65b7c5e2d239c39863b27861
 ### Try to get the full JSON for a request with an invalid id
 GET http://localhost:3000/api/bin/1/log/tunamelt
+### Delete a single log
+DELETE http://localhost:3000/api/bin/1/log/2
+### Delete all logs for an endpoint
