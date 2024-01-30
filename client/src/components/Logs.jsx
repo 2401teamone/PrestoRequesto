@@ -12,7 +12,7 @@ export default function Logs({ logs, currentLog, handleSelectLog }) {
       
       return (
         log.method.toLowerCase().includes(term) ||
-        log.path.includes(term)
+        (log.path && log.path.includes(term))
       )
     })
     .map(log => <LogRow key={log.id} log={log} active={currentLog === log.id} onClick={() => handleSelectLog(log.id)}/>)
