@@ -138,10 +138,10 @@ app.delete('/api/bin/:bin_id/log/:log_id/:mongo_id', async (req, res) => {
 
     // let mongo_id = results.rows[0].mongo_id;
     await mongo.remove("requests", mongoId);
-    
+
     const deleteQuery = `DELETE FROM log WHERE id = $1`;
     results = await dbQuery(deleteQuery, log_id);
-    
+
     res.json(packagePayload(200, "Log Deleted"));
   } catch (error) {
     if (error.message === "No Log Found") {
@@ -158,7 +158,7 @@ app.delete('/api/bin/:bin_id/log', async (req, res) => {
     await mongo.removeAll("requests", bin_id);
     const deleteAllQuery = `DELETE FROM log WHERE bin_id = $1`;
     result = await dbQuery(deleteAllQuery, bin_id);
-    
+
     // Handle DB Error
 
     res.json(packagePayload(200, "All Logs Deleted"));

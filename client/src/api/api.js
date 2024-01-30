@@ -9,7 +9,7 @@ const api = {
   },
   async getLogs(endpoint) {
     const res = await axios.get(`${base}/bin/${endpoint}/logs`)
-    
+
     return res.data
   },
   async getLog(mongoId) {
@@ -18,6 +18,10 @@ const api = {
   },
   async removeLog(binId, logId, mongoId) {
     const res = await axios.delete(`${base}/bin/${binId}/log/${logId}/${mongoId}`)
+    return res.data;
+  },
+  async removeLogs(binId) {
+    const res = await axios.delete(`${base}/bin/${binId}/log`)
     return res.data;
   }
 }
