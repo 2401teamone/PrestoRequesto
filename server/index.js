@@ -5,7 +5,9 @@ const { dbQuery } = require("./db-query");
 const mongo = require('./mongo-query');
 const morgan = require('morgan');
 const port = 3000;
+const cors = require('cors')
 
+app.use(cors());
 //morgan logging middleware
 app.use(morgan('dev'));
 //serve static files
@@ -13,11 +15,6 @@ app.use('/', express.static('dist'));
 app.use('/:bin_id', express.static('dist'));
 //json parsing middleware
 app.use(express.json());
-
-
-app.get("/", (req, res) => {
-  console.log('Hello Wold');
-});
 
 //generates a new unique endpoint, using the current time and a random value
 function generateEndpoint() {
@@ -73,13 +70,12 @@ app.post("/api/bin", async (req, res) => {
 });
 
 // Get bin page where the user can view their logged HTTP requests
-app.get('/api/bin/:bin_id/logs', async (req, res) => {
-  let bin_id = +req.params.bin_id;
+app.get('/api/bin/:endpoint/logs', async (req, res) => {
+  let endpoint = req.params.endpoint;
   try {
     //check that a bin exists with the given bin_id
-    const binCheckQuery = 'SELECT * FROM bin WHERE id = $1;';
-
-    let result = await dbQuery(binCheckQuery, bin_id);
+    const binCheckQuery = 'SELECT * FROM bin WHERE endpoint = $1;';
+    let result = await dbQuery(binCheckQuery, endpoint);
 
     if (result.rowCount === 0) {
       throw new Error("No Bin ID Found");
@@ -88,7 +84,7 @@ app.get('/api/bin/:bin_id/logs', async (req, res) => {
     //Get the requests from the log table for the given bin_id
     const getAllRequestsQuery = `SELECT * FROM log WHERE bin_id = $1;`;
 
-    requests = await dbQuery(getAllRequestsQuery, bin_id);
+    let requests = await dbQuery(getAllRequestsQuery, result.rows[0].id);
 
     //return the log entries as JSON
     res.json(packagePayload(200, "bin logs retrieved", {logs : requests.rows}));
@@ -105,7 +101,7 @@ app.get('/api/bin/:bin_id/logs', async (req, res) => {
 });
 
 // Get the detailed Request JSON from mongo
-app.get('/api/bin/:bin_id/log/:mongo_id', async (req, res) => {
+app.get('/api/bin/log/:mongo_id', async (req, res) => {
   let mongo_id = req.params.mongo_id;
   //query mongo for the http request details
   try {
