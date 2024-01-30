@@ -67,10 +67,27 @@ async function remove(collectionName, idString) {
   return result;
 }
 
+async function removeAll(collectionName, binId) {
+  //Connect to database
+  const db = await connectToDatabase();
+  //Get the collection
+  const collection = db.collection(collectionName);
+
+  // Convert the string ID to ObjectId
+  // const objectId = new ObjectId(bin_id);
+
+  //Delete the record with the given id
+  const result = await collection.deleteMany({ bin_id: binId });
+  //close the connection
+  closeDatabaseConnection();
+  return result;
+}
+
 module.exports = {
   connectToDatabase,
   closeDatabaseConnection,
   insert,
   find,
   remove,
+  removeAll
 };

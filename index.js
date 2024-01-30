@@ -155,14 +155,20 @@ app.delete('/api/bin/:bin_id/log/:log_id', async (req, res) => {
   }
 })
 // Delete all the requests from a given bin's log
-/*app.delete('/api/bin/:bin_id/log', async (req, res) => {
+app.delete('/api/bin/:bin_id/log', async (req, res) => {
   let bin_id = req.params.bin_id;
   try {
+    await mongo.removeAll("requests", bin_id);
+    const deleteAllQuery = `DELETE FROM log WHERE bin_id = $1`;
+    result = await dbQuery(deleteAllQuery, bin_id);
+    
+    // Handle DB Error
 
+    res.json(packagePayload(200, "All Logs Deleted"));
   } catch (error) {
-
+    console.log(error);
   }
-})*/
+})
 // send a test request to a bin
 
 
@@ -187,8 +193,14 @@ app.all('/endpoint/:endpoint/:path*?', async (req, res) => {
       throw new Error("No Bin ID Found");
     }
 
+    // Added bin_id Field
+    const mongoDoc = {
+      bin_id: result.rows[0].id,
+      JSONRequest
+    }
+
     // If it does exist, insert the http request into mongo - TODO
-    const mongo_id = await mongo.insert('requests', JSONRequest);
+    const mongo_id = await mongo.insert('requests', mongoDoc);
 
     // Insert into postgres
     const insert = `INSERT INTO log (bin_id, method, path, mongo_id)
