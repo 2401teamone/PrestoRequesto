@@ -135,7 +135,7 @@
         & .log-row {
           font-family: var(--font-mono);
           font-size: 1.1rem;
-          margin: 10px 0;
+          /* margin: 10px 0; */
           padding: 5px;
           /* padding: 20px 10px; */
           border-bottom: 1px solid gray;
@@ -143,15 +143,15 @@
           flex-direction: row;
           position: relative;
 
-          &.active {
-            background-color: blue;
-          }
-
-
           &:hover {
             background-color: rgba(0, 0, 0, 0.05);
             cursor: pointer;
           }
+          &.active {
+            background-color: rgba(195, 155, 211, 0.5);
+          }
+
+
           
           & .log-row-timestamp {
             margin-right: 20px;
@@ -184,11 +184,79 @@
       padding: 20px;
       border: 1px solid black;
 
+      & .bin-interface {
+        text-align: left;
+        position: relative;
+        & h2 {
+          font-size: 1.3rem;
+          margin-bottom: 10px;
+        }
+
+        & .options {
+          display: flex;
+          justify-content: space-around;
+          margin-bottom: 20px;
+
+          & .option {
+            cursor: pointer;
+            padding: 10px;
+            &:hover {
+              border-bottom: 1px solid gray;
+            }
+          }
+        }
+
+        & .copy-code {
+          &:hover {
+            cursor: pointer;
+            color: red;
+          }
+        }
+      }
+
       & .log-info {
         text-align: left;
+        position: relative;
         & h2 {
-          
           font-size: 1.3rem;
+        }
+
+        & .back {
+          position: absolute;
+          top: 0;
+          right: 0;
+          cursor: pointer;
+          font-size: 1.2rem;
+
+          & .hover {
+            color: red;
+          }
+        }
+
+        & .info {
+          display: flex;
+          margin: 10px 0;
+
+        }
+
+        & .section {
+          color: gray;
+          font-size: 1.1rem;
+          min-width: 100px;
+        }
+
+        & .details {
+          display: flex;
+          gap: 20px;
+          
+          & .method {
+            color: #5499C7;
+          }
+        }
+
+
+        & .body {
+          width: 100%;
         }
       }
       

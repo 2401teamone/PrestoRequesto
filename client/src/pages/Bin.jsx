@@ -36,11 +36,7 @@ export default function Bin() {
     }, 1500)
   }
 
-  const handleSelectLog = async id => {
-    // const res = await api.getLog(endpoint, id)
-    console.log(id)
-    setCurrentLog(id)
-  }
+  const handleSelectLog = async id => setCurrentLog(id)
 
   return (
     <div className="bin">
@@ -61,7 +57,7 @@ export default function Bin() {
               {
                 currentLog === null ?
                 <BinInterface url={url}/> :
-                <LogInfo logId={currentLog} logs={logs}/>
+                <LogInfo logId={currentLog} logs={logs} setCurrentLog={setCurrentLog}/>
               }
             </div>
           </div>
