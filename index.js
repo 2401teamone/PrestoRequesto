@@ -109,12 +109,12 @@ app.get('/api/bin/:bin_id/log/:mongo_id', async (req, res) => {
   let mongo_id = req.params.mongo_id;
   //query mongo for the http request details
   try {
-    let JSONRequest = await mongo.find('requests', mongo_id);
-    if (!JSONRequest) {
+    let mongoDoc = await mongo.find('requests', mongo_id);
+    if (!mongoDoc) {
       throw new Error("No Request Found");
     }
     // Return the JSON request
-    res.json(packagePayload(200, "request retrieved", {request : JSONRequest}));
+    res.json(packagePayload(200, "request retrieved", {request : mongoDoc.JSONRequest}));
   } catch (error) {
     if (error.message === "No Request Found") {
       res.status(404).json(packagePayload(404, "Request Not Found"));

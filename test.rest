@@ -20,7 +20,7 @@ PUT http://localhost:3000/endpoint/doesntexist/level1/level2/level3
 ### Get all the logs from postgres log table for a given bin
 GET http://localhost:3000/api/bin/1/logs
 ### Get the full JSON for a specific request in the MongoDB
-GET http://localhost:3000/api/bin/1/log/65b81f5ab469391775c1c3f1
+GET http://localhost:3000/api/bin/1/log/65b85b554b4562d392250bb7
 ### Try to get the full JSON for a request that doesn't exist
 GET http://localhost:3000/api/bin/1/log/65b7c5e2d239c39863b27861
 ### Try to get the full JSON for a request with an invalid id
