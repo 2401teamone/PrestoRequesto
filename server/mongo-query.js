@@ -1,6 +1,6 @@
 const { MongoClient, ObjectId } = require('mongodb');
 
-const uri = 'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.1.3'; // Update with your MongoDB connection string
+const uri = 'mongodb://localhost:27017'; // Update with your MongoDB connection string
 const dbName = 'main'; // Update with your database name
 
 let client;
