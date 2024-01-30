@@ -7,11 +7,13 @@
     "start": "nodemon index.js",
     "data_setup": "psql -d main < schema.sql && psql -d main < seed.sql",
     "data_reset": "psql -d main < drop_tables.sql && psql -d main < schema.sql && psql -d main < seed.sql",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ui:build": "rm -rf dist && cd ../client/ && npm run build && cp -r dist ../server"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
     "mongodb": "^6.3.0",
