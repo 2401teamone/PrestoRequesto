@@ -3,7 +3,7 @@ import { useState } from 'react'
 import LogRow from './LogRow.jsx'
 import Search from './ui/Search.jsx'
 
-export default function Logs({ logs, currentLog, handleSelectLog }) {
+export default function Logs({ logs, currentLog, handleSelectLog, onRefresh }) {
   const [term, setTerm] = useState("")
 
   const renderedLogs = logs
@@ -15,7 +15,7 @@ export default function Logs({ logs, currentLog, handleSelectLog }) {
         (log.path && log.path.includes(term))
       )
     })
-    .map(log => <LogRow key={log.id} log={log} active={currentLog === log.id} onClick={() => handleSelectLog(log.id)}/>)
+    .map(log => <LogRow key={log.id} log={log} onRefresh={onRefresh} active={currentLog === log.id} onClick={() => handleSelectLog(log.id)}/>)
 
   const handleSearch = val => setTerm(val)
 

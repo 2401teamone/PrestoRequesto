@@ -125,18 +125,19 @@ app.get('/api/bin/log/:mongo_id', async (req, res) => {
 });
 
 // Delete a single request from a given bin's log
-app.delete('/api/bin/:bin_id/log/:log_id', async (req, res) => {
+app.delete('/api/bin/:bin_id/log/:log_id/:mongo_id', async (req, res) => {
   let log_id = req.params.log_id;
+  let mongoId = req.params.mongo_id;
   try {
-    const getMongoID = `SELECT * FROM log WHERE id = $1`;
-    let results = await dbQuery(getMongoID, log_id);
+    // const getMongoID = `SELECT * FROM log WHERE id = $1`;
+    // let results = await dbQuery(getMongoID, log_id);
 
-    if (results.rowCount === 0) {
-      throw new Error("No Log Found");
-    }
+    // if (results.rowCount === 0) {
+    //   throw new Error("No Log Found");
+    // }
 
-    let mongo_id = results.rows[0].mongo_id;
-    await mongo.remove("requests", mongo_id);
+    // let mongo_id = results.rows[0].mongo_id;
+    await mongo.remove("requests", mongoId);
     
     const deleteQuery = `DELETE FROM log WHERE id = $1`;
     results = await dbQuery(deleteQuery, log_id);

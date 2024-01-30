@@ -13,6 +13,7 @@ export default function Bin() {
   const [currentLog, setCurrentLog] = useState(null)
   const [error, setError] = useState("")
   const [copied, setCopied] = useState(false)
+  const [refreshFlag, setRefreshFlag] = useState(false);
 
   const url = `http://localhost:3000/endpoint/${endpoint}`
 
@@ -26,7 +27,12 @@ export default function Bin() {
       if (status === 200) setLogs(payload.logs)
       else setError(message)
     })
-  }, [endpoint])
+  }, [endpoint, refreshFlag])
+
+  const handleRefresh = () => {
+    setCurrentLog(null);
+    setRefreshFlag(!refreshFlag);
+  };
 
   const copy = () => {
     setCopied(true)
@@ -51,7 +57,7 @@ export default function Bin() {
           
           <div className="content">
             <div className="left">
-              <Logs logs={logs} currentLog={currentLog} handleSelectLog={handleSelectLog}/>
+              <Logs logs={logs} currentLog={currentLog} onRefresh={handleRefresh} handleSelectLog={handleSelectLog}/>
             </div>
             <div className="right">
               {
