@@ -96,7 +96,7 @@ app.get('/api/bin/:bin_id/logs', async (req, res) => {
   } catch (error) {
     //return a 404 if there is no endpoint found
     if (error.message === "No Bin ID Found") {
-      res.status(404).json({message: "Bin Not Found"});
+      res.status(404).json(packagePayload(404, "Bin Not Found"));
       console.log(error);
     } else {
       console.log(error);
@@ -117,13 +117,13 @@ app.get('/api/bin/:bin_id/log/:mongo_id', async (req, res) => {
     res.json(packagePayload(200, "request retrieved", {request : JSONRequest}));
   } catch (error) {
     if (error.message === "No Request Found") {
-      res.status(404).json({message: "Request Not Found"});
+      res.status(404).json(packagePayload(404, "Request Not Found"));
 
       console.log(error);
       //else if the error is a BSONError, send a 400
     } else if (error.name === "MongoError") {
       console.log(error);
-      res.status(400).json({message: "Bad Reqeust"});
+      res.status(400).json(packagePayload(400, "Bad Request"));
     }
   }
 });
@@ -175,10 +175,10 @@ app.all('/endpoint/:endpoint/:path*?', async (req, res) => {
     console.log(error);
     // Send a 404 response if the bin does not exist
     if (error.message === "No Bin ID Found") {
-      return res.status(404).json({message: "Could not find bin"});
+      return res.status(404).json(packagePayload(404, "Bin Not Found"));
     } else {
       // Send a 500 response if inserting the request into the log table fails
-      return res.status(500).json({message: "Internal Server Error"});
+      return res.status(500).json(packagePayload(500, "Bad Request"));
     }
   }
 });
