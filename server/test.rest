@@ -29,5 +29,3 @@ GET http://localhost:3000/api/bin/1/log/tunamelt
 DELETE http://localhost:3000/api/bin/1/log/2
 ### Delete all logs for an endpoint
 DELETE http://localhost:3000/api/bin/1/log
-### Test Individual Endpoint
-GET http://localhost:3000/endpoint/b0d9dc067e68fb5daf522a5708c1a030

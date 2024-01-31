@@ -8,7 +8,7 @@ const api = {
     return res.data
   },
   async createLog(endpoint) {
-    const res = await axios.get(`${base}/endpoint/${endpoint}`)
+    const res = await axios.get(`http://localhost:3000/endpoint/${endpoint}`)
     return res.data
   },
   async getLogs(endpoint) {

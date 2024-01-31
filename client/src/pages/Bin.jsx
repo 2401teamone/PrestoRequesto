@@ -44,6 +44,12 @@ export default function Bin() {
 
   const handleSelectLog = async id => setCurrentLog(id)
 
+  // Test Endpoint
+  const handleTestEvent = async() => {
+    await api.createLog(endpoint);
+    handleRefresh();
+  }
+
   return (
     <div className="bin">
       {
@@ -57,7 +63,7 @@ export default function Bin() {
           
           <div className="content">
             <div className="left">
-              <Logs logs={logs} currentLog={currentLog} onRefresh={handleRefresh} handleSelectLog={handleSelectLog}/>
+              <Logs logs={logs} currentLog={currentLog} onRefresh={handleRefresh} handleSelectLog={handleSelectLog} handleTestEvent={handleTestEvent}/>
             </div>
             <div className="right">
               {
