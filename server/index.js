@@ -18,6 +18,12 @@ const {
   getJSONRequest
 } = require('./utils/utils.js')
 
+const {
+  subscribe,
+  clients,
+  sendEventToClient,
+} = require('./events.js')
+
 const port = 3000;
 
 const app = express();
@@ -45,6 +51,11 @@ app.post("/api/bin", catchError(async (req, res) => {
     { endpoint }
   ));
 }));
+
+/*
+subscribe
+*/
+app.get('/subscribe/:endpoint', subscribe)
 
 /*
 Get logs associated with specific bin endpoint
@@ -84,35 +95,33 @@ app.get('/api/bin/log/:mongo_id', catchError(async (req, res) => {
 /*
 Delete a single request from a given bin's log
 */
-app.delete('/api/bin/:bin_id/log/:log_id/:mongo_id', catchError(async (req, res) => {
-  const { log_id: logId, mongo_id: mongoId } = req.params;
+app.delete('/api/bin/:endpoint/log/:log_id/:mongo_id', catchError(async (req, res) => {
+  const { endpoint, log_id: logId, mongo_id: mongoId } = req.params;
   await mongo.remove("requests", mongoId);
   await PG.deleteLog(logId)
+  
   res.json(packagePayload(
-    200, "Log Deleted"
+    200, 
+    "Log Deleted"
   ));
+
+  return sendEventToClient(endpoint);
 }));
 
 /*
 Delete all the requests from a given bin's log
 */
-app.delete('/api/bin/:bin_id/log', catchError(async (req, res) => {
-  const { bin_id: binId } = req.params;
+app.delete('/api/bin/:bin_id/:endpoint/log', catchError(async (req, res) => {
+  const { bin_id: binId, endpoint } = req.params;
   await mongo.removeAll("requests", binId);
   await PG.deleteAllLogs(binId)
+  
   res.json(packagePayload(
     200, 
     "All Logs Deleted"
   ));
-  // try {
-  //   const deleteAllQuery = `DELETE FROM log WHERE bin_id = $1`;
-  //   result = await dbQuery(deleteAllQuery, bin_id);
 
-  //   // Handle DB Error
-
-  // } catch (error) {
-  //   console.log(error);
-  // }
+  return sendEventToClient(endpoint);
 }))
 
 /*
@@ -143,6 +152,8 @@ app.all('/endpoint/:endpoint/:path*?', async (req, res) => {
     "Request logged", 
     { log: newLog }
   ));
+
+  return sendEventToClient(endpoint)
 });
 
 app.all('*', (req, res, next) => {

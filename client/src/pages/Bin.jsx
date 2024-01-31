@@ -14,28 +14,22 @@ export default function Bin() {
   const [error, setError] = useState("hold")
   const [copied, setCopied] = useState(false)
   const [refreshFlag, setRefreshFlag] = useState(false);
+  const [listening, setListening] = useState(false)
 
   const url = `http://localhost:3000/endpoint/${endpoint}`
 
   useEffect(() => {
-    const getLogs = async () => {
-      const res = await api.getLogs(endpoint)
-      return res
-    }
-
-    getLogs().then(({ status, message, payload }) => {
-      if (status === 200) {
+    let source
+    if (!listening) {
+      source = new EventSource(`http://localhost:3000/subscribe/${endpoint}`)
+      source.onmessage = e => {
         setError("")
-        setLogs(payload.logs)
+        setLogs(JSON.parse(e.data))
       }
-      else setError(message)
-    })
-  }, [endpoint, refreshFlag])
-
-  const handleRefresh = () => {
-    setCurrentLog(null);
-    setRefreshFlag(!refreshFlag);
-  };
+    }
+    setListening(true)
+    if (source) return () => source 
+  }, [endpoint, listening])
 
   const copy = () => {
     setCopied(true)
@@ -47,11 +41,7 @@ export default function Bin() {
 
   const handleSelectLog = async id => setCurrentLog(id)
 
-  // Test Endpoint
-  const handleTestEvent = async() => {
-    await api.createLog(endpoint);
-    handleRefresh();
-  }
+  const handleTestEvent = async() => await api.createLog(endpoint);
 
   return (
     <div className="bin">
@@ -66,7 +56,7 @@ export default function Bin() {
           
           <div className="content">
             <div className="left">
-              <Logs logs={logs} currentLog={currentLog} onRefresh={handleRefresh} handleSelectLog={handleSelectLog}/>
+              <Logs logs={logs} currentLog={currentLog} handleSelectLog={handleSelectLog}/>
             </div>
             <div className="right">
               {
