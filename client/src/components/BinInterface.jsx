@@ -45,7 +45,7 @@ req.end()`
   return (
     <div className="bin-interface">
       <h2>Interface</h2>
-      <button onClick={handleTestEvent}>Generate Test Event</button>
+      <button className="generate-test-event-button" onClick={handleTestEvent}>Generate Test Event</button>
       <div className="options">
         <button className="copy" onClick={() => window.navigator.clipboard.writeText(copies[current])}>
           <i className="fa-light fa-copy"></i>

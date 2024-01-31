@@ -53,6 +53,12 @@ button {
   transition: 0.2s all;
 }
 
+.generate-test-event-button {
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
 .delete-all-logs-button {
   width: 100%;
   margin-top: 0.25rem;
