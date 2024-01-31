@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { CodeBlock } from 'react-code-blocks'
 
-export default function BinInterface({ url }) {
+export default function BinInterface({ url, handleTestEvent }) {
   const [current, setCurrent] = useState("curl")
 
   const copies = {
@@ -45,6 +45,7 @@ req.end()`
   return (
     <div className="bin-interface">
       <h2>Interface</h2>
+      <button onClick={handleTestEvent}>Generate Test Event</button>
       <div className="options">
         <button className="copy" onClick={() => window.navigator.clipboard.writeText(copies[current])}>
           <i className="fa-light fa-copy"></i>
