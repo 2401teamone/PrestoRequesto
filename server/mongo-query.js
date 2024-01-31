@@ -44,7 +44,13 @@ async function find(collectionName, idString) {
   const collection = db.collection(collectionName);
 
   // Convert the string ID to ObjectId
-  const objectId = new ObjectId(idString);
+  let objectId
+  try {
+    objectId = new ObjectId(idString);
+  } catch (error) {
+    closeDatabaseConnection();
+    return null;
+  }
 
   const result = await collection.findOne(objectId);
   closeDatabaseConnection();
@@ -58,7 +64,13 @@ async function remove(collectionName, idString) {
   const collection = db.collection(collectionName);
 
   // Convert the string ID to ObjectId
-  const objectId = new ObjectId(idString);
+  let objectId
+  try {
+    objectId = new ObjectId(idString);
+  } catch (error) {
+    closeDatabaseConnection();
+    return null;
+  }
 
   //Delete the record with the given id
   const result = await collection.deleteOne({_id: objectId});
@@ -72,9 +84,6 @@ async function removeAll(collectionName, binId) {
   const db = await connectToDatabase();
   //Get the collection
   const collection = db.collection(collectionName);
-
-  // Convert the string ID to ObjectId
-  // const objectId = new ObjectId(bin_id);
 
   //Delete the record with the given id
   const result = await collection.deleteMany({ bin_id: binId });
