@@ -63,12 +63,12 @@ export default function Bin() {
           
           <div className="content">
             <div className="left">
-              <Logs logs={logs} currentLog={currentLog} onRefresh={handleRefresh} handleSelectLog={handleSelectLog} handleTestEvent={handleTestEvent}/>
+              <Logs logs={logs} currentLog={currentLog} onRefresh={handleRefresh} handleSelectLog={handleSelectLog}/>
             </div>
             <div className="right">
               {
                 currentLog === null ?
-                <BinInterface url={url}/> :
+                <BinInterface url={url} handleTestEvent={handleTestEvent}/> :
                 <LogInfo logId={currentLog} logs={logs} setCurrentLog={setCurrentLog}/>
               }
             </div>

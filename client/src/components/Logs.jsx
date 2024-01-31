@@ -4,7 +4,7 @@ import api from '../api/api.js'
 import LogRow from './LogRow.jsx'
 import Search from './ui/Search.jsx'
 
-export default function Logs({ logs, currentLog, handleSelectLog, handleTestEvent, onRefresh }) {
+export default function Logs({ logs, currentLog, handleSelectLog, onRefresh }) {
   const [term, setTerm] = useState("")
 
   const renderedLogs = logs
@@ -30,7 +30,6 @@ export default function Logs({ logs, currentLog, handleSelectLog, handleTestEven
   return (
     <div className="logs">
       <h2>Logs</h2>
-      <button onClick={handleTestEvent}>Generate Test Event</button>
       <Search term={term} handleSearch={handleSearch}/>
       <div className="log-rows">
         {renderedLogs}
