@@ -7,9 +7,12 @@ const api = {
     const res = await axios.post(`${base}/bin`)
     return res.data
   },
+  async createLog(endpoint) {
+    const res = await axios.get(`${base}/endpoint/${endpoint}`)
+    return res.data
+  },
   async getLogs(endpoint) {
     const res = await axios.get(`${base}/bin/${endpoint}/logs`)
-
     return res.data
   },
   async getLog(mongoId) {
