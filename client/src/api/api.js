@@ -8,12 +8,20 @@ const api = {
     return res.data
   },
   async createLog(endpoint) {
-    const res = await axios.get(`http://localhost:3000/endpoint/${endpoint}`)
-    return res.data
+    try {
+      const res = await axios.get(`http://localhost:3000/endpoint/${endpoint}`)
+      return res.data
+    } catch (err) {
+      return err.response.data
+    }
   },
   async getLogs(endpoint) {
-    const res = await axios.get(`${base}/bin/${endpoint}/logs`)
-    return res.data
+    try {
+      const res = await axios.get(`${base}/bin/${endpoint}/logs`)
+      return res.data
+    } catch (err) {
+      return err.response.data
+    }
   },
   async getLog(mongoId) {
     const res = await axios.get(`${base}/bin/log/${mongoId}`)

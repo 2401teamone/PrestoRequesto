@@ -4,23 +4,19 @@ const morgan = require('morgan');
 const cors = require('cors')
 
 // db operations
-const mongo = require('./mongo-query');
+const mongo = require('./db/mongo-query');
 const { dbQuery } = require("./db/db-query");
 const PG = require('./db/pg.js')
 
 // utilities
-const catchError = require('./utils/catch-error.js')
+const catchError = require('./utils/catch-error.js');
 const AppError = require('./utils/app-error.js');
+
 const {
   packagePayload,
   generateEndpoint,
   getJSONRequest
 } = require('./utils/utils.js')
-const {
-  clients,
-  subscribe,
-  sendEventToClient
-} = require('./events.js');
 
 const port = 3000;
 
@@ -28,13 +24,12 @@ const app = express();
 
 // middleware
 app.use(cors());
-// app.use(morgan('dev'));
+app.use(morgan('dev'));
 app.use(express.json());
 
 //serve static files
 app.use('/', express.static('dist'));
 app.use('/:bin_id', express.static('dist'));
-
 
 /*
 Creates a new bin when 'Initiate Bin' button is clicked
@@ -52,11 +47,6 @@ app.post("/api/bin", catchError(async (req, res) => {
 }));
 
 /*
-Subscribe to your new endpoint to receive real-time updates when requests are made
-*/
-app.get('/subscribe/:endpoint', subscribe)
-
-/*
 Get logs associated with specific bin endpoint
 If no bin for that endpoint, reroutes to err page
 */
@@ -69,7 +59,7 @@ app.get('/api/bin/:endpoint/logs', catchError(async (req, res) => {
   
   const requests = await PG.getLogsByBinId(foundBin.id);
   
-  res.json(packagePayload(
+  res.status(200).json(packagePayload(
     200,
     "Bin logs retrieved",
     { logs: requests }
@@ -163,10 +153,10 @@ app.all('*', (req, res, next) => {
 
 app.use((err, req, res, next) => {
   err.status = err.status || 500;
-  
+
   res
     .status(err.status)
-    .json(packagePayload(err))
+    .json(packagePayload(err.status, err.message))
 })
 
 app.listen(port, () => {

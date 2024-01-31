@@ -11,7 +11,7 @@ export default function Bin() {
   const { endpoint } = useParams()
   const [logs, setLogs] = useState([])
   const [currentLog, setCurrentLog] = useState(null)
-  const [error, setError] = useState("")
+  const [error, setError] = useState("hold")
   const [copied, setCopied] = useState(false)
   const [refreshFlag, setRefreshFlag] = useState(false);
 
@@ -24,7 +24,10 @@ export default function Bin() {
     }
 
     getLogs().then(({ status, message, payload }) => {
-      if (status === 200) setLogs(payload.logs)
+      if (status === 200) {
+        setError("")
+        setLogs(payload.logs)
+      }
       else setError(message)
     })
   }, [endpoint, refreshFlag])
