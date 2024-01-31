@@ -24,7 +24,7 @@ module.exports = {
     let client = new Client(CONNECTION);
 
     await client.connect();
-    logQuery(statement, parameters);
+    // logQuery(statement, parameters);
     let result = await client.query(statement, parameters);
     await client.end();
 
