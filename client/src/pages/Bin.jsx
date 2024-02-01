@@ -15,7 +15,7 @@ export default function Bin() {
   const [copied, setCopied] = useState(false)
   const [refreshFlag, setRefreshFlag] = useState(false);
 
-  const url = `http://localhost:3000/endpoint/${endpoint}`
+  const url = `https://prestorequesto.com/endpoint/${endpoint}`
 
   useEffect(() => {
     const getLogs = async () => {
@@ -63,7 +63,7 @@ export default function Bin() {
               Your Pastebin URL is <span className="url">{url}</span>
               <button className="copy" onClick={copy}><i className="fa-light fa-copy"></i> <span className="copy-notification">{copied && "copied"}</span></button>
           </div>
-          
+
           <div className="content">
             <div className="left">
               <Logs logs={logs} currentLog={currentLog} onRefresh={handleRefresh} handleSelectLog={handleSelectLog}/>

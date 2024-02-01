@@ -8,16 +8,16 @@ module.exports = {
     const currentTimestamp = new Date().toISOString();
     const randomValue = Math.random().toString();
     const dataToHash = currentTimestamp + randomValue;
-  
+
     const endpoint = crypto.createHash('md5').update(dataToHash).digest('hex');
     return endpoint;
   },
   getJSONRequest(req) {
     const requestCopy = {...req};
-  
+
     return {
       method: requestCopy.method,
-      headers: requestCopy.headers,
+      headers: requestCopy.rawHeaders,
       query: requestCopy.query,
       params: requestCopy.params,
       cookies: requestCopy.cookies,

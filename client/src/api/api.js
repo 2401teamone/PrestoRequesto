@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const base = 'http://localhost:3000/api'
+const base = 'https://prestorequesto.com/api'
 
 const api = {
   async createBin() {
@@ -9,7 +9,7 @@ const api = {
   },
   async createLog(endpoint) {
     try {
-      const res = await axios.get(`http://localhost:3000/endpoint/${endpoint}`)
+      const res = await axios.get(`https://prestorequesto.com/endpoint/${endpoint}`)
       return res.data
     } catch (err) {
       return err.response.data
