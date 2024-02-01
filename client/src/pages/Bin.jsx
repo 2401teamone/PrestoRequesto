@@ -21,14 +21,14 @@ export default function Bin() {
     console.log('using effect')
     let source
     if (!listening) {
-      source = new EventSource(`http://localhost:3000/subscribe/${endpoint}`)
+      source = new EventSource(`${baseURL}/subscribe/${endpoint}`)
       source.onmessage = e => {
         setError("")
         setLogs(JSON.parse(e.data))
       }
     }
     setListening(true)
-    if (source) return () => source 
+    if (source) return () => source
   }, [endpoint, listening])
 
 

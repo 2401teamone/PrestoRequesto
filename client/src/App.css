@@ -14,7 +14,7 @@
   --color-purple: #9A4EBE;
   background-color: var(--color-darkblue);
   height: 100vh;
-  
+
   & .app {
     min-width: 1280px;
     max-width: 1280px;
@@ -35,7 +35,7 @@
       font-size: 1rem;
       /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
       transition: 0.2s all;
-    
+
       &:hover {
         background-color: rgba(240, 234, 207, 0.5);
       }
@@ -43,7 +43,7 @@
         transform: scale(0.95);
       }
     }
-    
+
     & .home {
       position: relative;
       height: 100vh;
@@ -59,7 +59,7 @@
           font-size: 6rem;
           margin-bottom: 20px;
         }
-        
+
         .overview {
           color: white;
           font-size: 1.2rem;
@@ -100,25 +100,26 @@
         box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
         background-color: white;
         border-radius: 20px;
+        font-family : var(--font-mono);
       }
 
       .header {
         font-size: 1.5rem;
       }
-    
+
       & .top {
         padding: 20px;
         margin-bottom: 50px;
         font-size: 1.7rem;
         text-align: center;
-    
+
         & .url {
           padding-left: 10px;
           text-decoration: underline var(--color-darkblue);
           font-size: 1.4rem;
           /* font-family: "VT323"; */
         }
-    
+
         & .copy {
           position: relative;
           border: 1px solid var(--color-darkblue);
@@ -127,39 +128,39 @@
           padding: 12px;
           font-size: 1.1rem;
           margin-left: 40px;
-    
-    
+
+
           &:hover {
             color: var(--color-purple);
             cursor: pointer;
             /* font-size: 2rem; */
           }
-    
+
           & .copy-notification {
             position: absolute;
             margin-left: 20px;
           }
-    
+
         }
       }
-    
+
       .content {
         display: flex;
         justify-content: space-between;
         gap: 30px;
-    
+
         & .left {
           width: 30%;
           padding: 20px;
           height: 70vh;
           overflow-y: scroll;
-    
+
           & .logs {
             min-width: 200px;
             display: flex;
             flex-direction: column;
 
-    
+
             & .search {
               margin: 20px 0;
               position: relative;
@@ -174,18 +175,18 @@
                 border: none;
                 border-bottom: 1px solid black;
                 width: 70%;
-    
+
                 &:focus {
                   outline: none;
                 }
               }
             }
-    
+
             & .log-rows {
               max-height: 100%;
               overflow-y: scroll;
             }
-    
+
             & .log-row {
               font-family: var(--font-mono);
               font-size: 1.1rem;
@@ -194,7 +195,7 @@
               display: flex;
               flex-direction: row;
               position: relative;
-    
+
               &:hover {
                 background-color: rgba(0, 0, 0, 0.05);
                 cursor: pointer;
@@ -202,25 +203,25 @@
               &.active {
                 background-color: rgba(195, 155, 211, 0.5);
               }
-    
+
               & .log-row-timestamp {
                 margin-right: 20px;
                 color: gray;
                 padding: 10px 0;
               }
-    
+
               & .log-row-method {
                 margin-right: 20px;
                 color: #5499C7;
                 font-weight: 800;
                 padding: 10px 0;
               }
-    
+
               & .log-row-path {
                 position: absolute;
                 padding: 10px 0;
                 right: 0;
-    
+
                 text-align: left;
                 min-width: 170px;
                 max-width: 170px;
@@ -239,11 +240,11 @@
         & .right {
           width: 60%;
           padding: 20px;
-    
+
           & .bin-interface {
             text-align: left;
             position: relative;
-            
+
             & .bin-interface-top {
               display: flex;
               justify-content: space-between;
@@ -251,7 +252,7 @@
               border-bottom: 2px solid black;
               padding-bottom: 10px;
               margin-bottom: 20px;
-              
+
               & h2 {
                 padding-bottom: 10px;
               }
@@ -259,7 +260,7 @@
               & .bin-interface-buttons {
                 display: flex;
                 gap: 10px;
-                
+
                 & .bin-interface-button {
                   padding: 8px;
                   border: 1px solid var(--color-blue);
@@ -269,7 +270,7 @@
                     color: white;
                     font-size: 1.2rem;
                   }
-    
+
                   & .copy-code {
                     &:hover {
                       cursor: pointer;
@@ -281,12 +282,12 @@
 
             }
 
-    
+
             & .options {
               display: flex;
               justify-content: space-around;
               margin-bottom: 20px;
-    
+
               & .option {
                 cursor: pointer;
                 padding: 10px;
@@ -295,62 +296,62 @@
                 }
               }
             }
-    
+
 
           }
-    
+
           & .log-info {
             text-align: left;
             position: relative;
             & h2 {
               font-size: 1.3rem;
             }
-    
+
             & .back {
               position: absolute;
               top: 0;
               right: 0;
               cursor: pointer;
               font-size: 1.2rem;
-    
+
               & .hover {
                 color: red;
               }
             }
-    
+
             & .info {
               display: flex;
               margin: 10px 0;
-    
+
             }
-    
+
             & .section {
               color: gray;
               font-size: 1.1rem;
               min-width: 100px;
             }
-    
+
             & .details {
               display: flex;
               gap: 20px;
-    
+
               & .method {
                 color: #5499C7;
               }
             }
-    
-    
+
+
             & .body {
               width: 100%;
               max-height: 50vh;
               overflow-y: auto;
             }
-    
+
             & .clickable {
               cursor: pointer;
               text-decoration: underline;
               transition: color 0.3s ease;
-    
+
               &:hover {
                 color: #2980b9;
               }
@@ -358,22 +359,22 @@
             & .scrollable-table-container {
               max-height: 300px;
               overflow-y: auto;
-    
+
               & .headers-table {
                 width: 100%;
                 border-collapse: collapse;
                 margin-top: 10px;
-    
+
                 & th, & td {
                   border: 1px solid #ddd;
                   padding: 8px;
                   text-align: left;
                 }
-    
+
                 & th {
                   background-color: #f2f2f2;
                 }
-    
+
                 & tbody tr:nth-child(even) {
                   background-color: #f9f9f9;
                 }
