@@ -7,9 +7,14 @@ import api from '../api/api.js'
 export default function LogInfo({ logId, logs, setCurrentLog }) {
   const [log, setLog] = useState(null)
   const [headersVisible, setHeadersVisible] = useState(false);
+  const [queryStringVisible, setQueryStringVisible] = useState(false);
 
   const toggleHeadersVisibility = () => {
     setHeadersVisible(!headersVisible);
+  };
+
+  const toggQueryStringVisibility = () => {
+    setQueryStringVisible(!queryStringVisible);
   };
 
   useEffect(() => {
@@ -26,6 +31,7 @@ export default function LogInfo({ logId, logs, setCurrentLog }) {
           body: payload.request.body,
           cookies: payload.request.cookies,
           headers: payload.request.headers,
+          query: payload.request.query,
           ...sqlData
         }
         setLog(log)
@@ -62,14 +68,28 @@ export default function LogInfo({ logId, logs, setCurrentLog }) {
             {headersVisible && log.headers && (
               <div className="info scrollable-table-container">
                 <table className="headers-table">
-                  <thead>
-                    <tr>
-                      <th>Header</th>
-                      <th>Value</th>
-                    </tr>
-                  </thead>
                   <tbody>
                     {Object.entries(log.headers).map(([key, value]) => (
+                      <tr key={key}>
+                        <td>{key}</td>
+                        <td>{value}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+            <div className="info">
+              <span className={`section section-headers ${Object.keys(log.query).length > 0 ? 'clickable' : ''}`}
+                    onClick={Object.keys(log.query).length > 0 ? toggQueryStringVisibility : () => {}}>
+                    Query Parameters:({log.query ? Object.keys(log.query).length : 0})
+              </span>
+            </div>
+            {queryStringVisible && log.query && (
+              <div className="info scrollable-table-container">
+                <table className="headers-table">
+                  <tbody>
+                    {Object.entries(log.query).map(([key, value]) => (
                       <tr key={key}>
                         <td>{key}</td>
                         <td>{value}</td>
