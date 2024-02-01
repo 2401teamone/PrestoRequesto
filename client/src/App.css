@@ -21,7 +21,7 @@
     font-family: var(--font-mono);
   }
 }
-/* 
+/*
 *::-webkit-scrollbar {
   width: 10px;
 } */
@@ -56,7 +56,7 @@
     font-size: 2rem;
     /* margin: 0 auto; */
     text-align: center;
-    
+
     & .url {
       padding-left: 10px;
       text-decoration: underline black;
@@ -70,7 +70,7 @@
       background-color: white;
       padding: 20px;
       font-size: 1.1rem;
-  
+
       &:hover {
         color: red;
         cursor: pointer;
@@ -80,7 +80,7 @@
         position: absolute;
         margin-left: 10px;
       }
-    
+
     }
   }
 
@@ -131,7 +131,7 @@
           max-height: 100%;
           overflow-y: scroll;
         }
-        
+
         & .log-row {
           font-family: var(--font-mono);
           font-size: 1.1rem;
@@ -152,20 +152,20 @@
           }
 
 
-          
+
           & .log-row-timestamp {
             margin-right: 20px;
             color: gray;
             padding: 10px 0;
           }
-          
+
           & .log-row-method {
             margin-right: 20px;
             color: #5499C7;
             font-weight: 800;
             padding: 10px 0;
           }
-          
+
           & .log-row-path {
             position: absolute;
             padding: 10px 0;
@@ -248,7 +248,7 @@
         & .details {
           display: flex;
           gap: 20px;
-          
+
           & .method {
             color: #5499C7;
           }
@@ -258,10 +258,27 @@
         & .body {
           width: 100%;
         }
+
+        & .headers-table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 10px;
+
+          & th, & td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+          }
+
+          & th {
+            background-color: #f2f2f2;
+          }
+
+          & tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+          }
+        }
       }
-      
     }
   }
-  
-  
 }

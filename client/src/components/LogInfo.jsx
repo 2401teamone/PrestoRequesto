@@ -50,18 +50,27 @@ export default function LogInfo({ logId, logs, setCurrentLog }) {
               </span>
             </div>
             <div className="info">
-              <span className="section section-headers">Headers:</span>
-              <ul className="headers-list">
-                {log.headers ? (
-                  Object.entries(log.headers).map(([key, value]) => (
-                    <li key={key}>
-                      <strong>{key}:</strong> {value}
-                    </li>
-                  ))
-                ) : (
-                  <li>N/A</li>
-                )}
-              </ul>
+            <span className="section section-headers">Headers:</span>
+            <div className="headers-list">
+              {log.headers && (
+                <table className="headers-table">
+                  <thead>
+                    <tr>
+                      <th>Header</th>
+                      <th>Value</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.entries(log.headers).map(([key, value]) => (
+                      <tr key={key}>
+                        <td>{key}</td>
+                        <td>{value}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </div>
             </div>
             <div className="info">
               <span className="section section-body">Body:</span>
