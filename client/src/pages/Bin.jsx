@@ -19,6 +19,7 @@ export default function Bin() {
   const url = `http://localhost:3000/endpoint/${endpoint}`
 
   useEffect(() => {
+    console.log('using effect')
     let source
     if (!listening) {
       source = new EventSource(`http://localhost:3000/subscribe/${endpoint}`)
@@ -30,6 +31,7 @@ export default function Bin() {
     setListening(true)
     if (source) return () => source 
   }, [endpoint, listening])
+
 
   const copy = () => {
     setCopied(true)

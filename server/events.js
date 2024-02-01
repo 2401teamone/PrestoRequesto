@@ -1,6 +1,6 @@
 const PG = require('./db/pg.js')
 
-const clients = {}
+let clients = []
 
 const subscribe = async (req, res, next) => {
   const { endpoint } = req.params;
@@ -19,17 +19,29 @@ const subscribe = async (req, res, next) => {
   const data = `data: ${JSON.stringify(currentRequests)}\n\n`
   res.write(data)
 
-  clients[endpoint] = res;
+  let thisClientId = Date.now();
+
+  let newClient = {
+    id: thisClientId,
+    endpoint,
+    res
+  }
+
+  clients.push(newClient)
 
   req.on('close', () => {
     console.log(`${endpoint} closed`);
-    delete clients[endpoint]
+    clients = clients.filter(client => client.id !== thisClientId)
   })
 }
 
 const sendEventToClient = async (endpoint) => {
   let updatedRequests = await PG.getLogsByEndpoint(endpoint)
-  clients[endpoint].write(`data: ${JSON.stringify(updatedRequests)}\n\n`)
+  clients.forEach(client => {
+    if (client.endpoint === endpoint) {
+      client.res.write(`data: ${JSON.stringify(updatedRequests)}\n\n`)
+    }
+  })
 }
 
 module.exports = {
