@@ -14,13 +14,17 @@ class PG {
 
   async getLogsByBinId(binId) {
     const getAllRequestsQuery = `SELECT * FROM log WHERE bin_id = $1;`;
-    const requests = await dbQuery(getAllRequestsQuery, binId);
-    return requests.rows;
+    const res = await dbQuery(getAllRequestsQuery, binId);
+    console.log(res, "HERE")
+    return res.rows;
   }
 
   async getLogsByEndpoint(endpoint) {
-    const getAllRequestsQuery = `SELECT * FROM log WHERE endpoint = $1;`;
-    const requests = await dbQuery(getAllRequestsQuery, endpoint);
+    const foundBin = await this.getBin(endpoint);
+    if (!foundBin) throw new AppError(404, "No bin found for that endpoint");
+    
+    const getAllRequestsQuery = `SELECT * FROM log WHERE bin_id = $1;`;
+    const requests = await dbQuery(getAllRequestsQuery, foundBin.id);
     return requests.rows;
   }
 
@@ -36,7 +40,7 @@ class PG {
 
   async deleteLog(logId) {
     const deleteQuery = `DELETE FROM log WHERE id = $1`;
-    const results = await dbQuery(deleteQuery, logId);
+    await dbQuery(deleteQuery, logId);
   }
 
   async deleteAllLogs(binId) {
