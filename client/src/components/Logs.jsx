@@ -23,7 +23,6 @@ export default function Logs({ logs, currentLog, handleSelectLog, onRefresh }) {
   const handleRemoveAll = async() => {
     //Send an axios request to the backend to remove all logs
     await api.removeLogs(logs[0].bin_id);
-    //re-render the bin component
     onRefresh();
   }
 
@@ -35,7 +34,7 @@ export default function Logs({ logs, currentLog, handleSelectLog, onRefresh }) {
         {renderedLogs}
       </div>
       <div>
-        {logs.length !== 0 &&(<button onClick={handleRemoveAll}>Delete All</button>)}
+        {logs.length !== 0 &&(<button className="delete-all-logs-button" onClick={handleRemoveAll}>Delete All</button>)}
       </div>
     </div>
   )
