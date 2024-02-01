@@ -14,7 +14,7 @@ module.exports = {
   },
   getJSONRequest(req) {
     const requestCopy = {...req};
-
+    
     const formatHeaders = (headers) => {
       const formattedHeaders = {};
       for (let i = 0; i < headers.length; i += 2) {
