@@ -26,6 +26,7 @@ const app = express();
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //serve static files
 app.use('/', express.static('dist'));
@@ -40,8 +41,8 @@ app.post("/api/bin", catchError(async (req, res) => {
   const endpoint = generateEndpoint();
   await PG.createBin(endpoint);
   res.json(packagePayload(
-    200, 
-    "Bin created", 
+    200,
+    "Bin created",
     { endpoint }
   ));
 }));
@@ -53,12 +54,12 @@ If no bin for that endpoint, reroutes to err page
 app.get('/api/bin/:endpoint/logs', catchError(async (req, res) => {
   const { endpoint } = req.params;
   if (!endpoint) throw new AppError(404, "No endpoint received with this request...")
-  
+
   const foundBin = await PG.getBin(endpoint);
   if (!foundBin) throw new AppError(404, "No bin found for that endpoint");
-  
+
   const requests = await PG.getLogsByBinId(foundBin.id);
-  
+
   res.status(200).json(packagePayload(
     200,
     "Bin logs retrieved",
@@ -75,8 +76,8 @@ app.get('/api/bin/log/:mongo_id', catchError(async (req, res) => {
   if (!mongoDoc) throw new AppError(400, "No Request Found");
 
   res.json(packagePayload(
-    200, 
-    "Request retrieved", 
+    200,
+    "Request retrieved",
     { request : mongoDoc.JSONRequest }
   ));
 }));
@@ -101,7 +102,7 @@ app.delete('/api/bin/:bin_id/log', catchError(async (req, res) => {
   await mongo.removeAll("requests", binId);
   await PG.deleteAllLogs(binId)
   res.json(packagePayload(
-    200, 
+    200,
     "All Logs Deleted"
   ));
   // try {
@@ -123,12 +124,12 @@ app.all('/endpoint/:endpoint/:path*?', async (req, res) => {
   let { endpoint, path } = req.params;
   path = req.params['0'] ? path + req.params['0'] : path;
   const method = req.method;
-  
+
   const JSONRequest = getJSONRequest(req);
-  
+
   const foundBin = await PG.getBin(endpoint);
   if (!foundBin) throw new AppError(404, "No bin found for that endpoint");
-  
+
   const mongoDoc = {
     bin_id: foundBin.id,
     JSONRequest
@@ -137,10 +138,10 @@ app.all('/endpoint/:endpoint/:path*?', async (req, res) => {
   if (!mongo_id) throw new AppError(404, "Failed to create the associated mongo resource");
 
   const newLog = await PG.createLog(foundBin.id, method, path, mongo_id);
-  
+
   res.json(packagePayload(
-    200, 
-    "Request logged", 
+    200,
+    "Request logged",
     { log: newLog }
   ));
 });
