@@ -16,7 +16,8 @@ export default function Bin() {
   const [refreshFlag, setRefreshFlag] = useState(false);
   const [listening, setListening] = useState(false)
 
-  const url = `http://localhost:3000/endpoint/${endpoint}`
+  const baseURL = import.meta.env.VITE_BASE_URL
+  const url = `${baseURL}/endpoint/${endpoint}`
 
   useEffect(() => {
     console.log('using effect')
@@ -43,7 +44,24 @@ export default function Bin() {
 
   const handleSelectLog = async id => setCurrentLog(id)
 
-  const handleTestEvent = async() => await api.createLog(endpoint);
+
+  // Test Endpoint
+  const handleTestEvent = async() => {
+    const headers = new Headers()
+    headers.append("Content-Type", "application/json")
+
+    const body = { "name": "Han Solo" }
+
+    const options = {
+      method: "POST",
+      headers,
+      mode: "cors",
+      body: JSON.stringify(body),
+    }
+
+    await fetch(url, options)
+  }
+
 
   return (
     <div className="bin">
@@ -55,7 +73,7 @@ export default function Bin() {
               Your Pastebin URL is <span className="url">{url}</span>
               <button className="copy" onClick={copy}><i className="fa-light fa-copy"></i> <span className="copy-notification">{copied && "copied"}</span></button>
           </div>
-          
+
           <div className="content">
             <div className="left">
               <Logs logs={logs} currentLog={currentLog} handleSelectLog={handleSelectLog}/>

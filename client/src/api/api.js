@@ -1,11 +1,12 @@
 import axios from 'axios'
 
-const base = 'http://localhost:3000/api'
+const baseURL = import.meta.env.VITE_BASE_URL
+const baseAPI = `${baseURL}/api`
 
 const api = {
   async createBin() {
     try {
-      const res = await axios.post(`${base}/bin`)
+      const res = await axios.post(`${baseAPI}/bin`)
       return res.data
     } catch (err) {
       return err.response.data
@@ -13,7 +14,7 @@ const api = {
   },
   async createLog(endpoint) {
     try {
-      const res = await axios.get(`http://localhost:3000/endpoint/${endpoint}`)
+      const res = await axios.get(`${baseURL}/endpoint/${endpoint}`)
       return res.data
     } catch (err) {
       return err.response.data
@@ -21,7 +22,7 @@ const api = {
   },
   async getLogs(endpoint) {
     try {
-      const res = await axios.get(`${base}/bin/${endpoint}/logs`)
+      const res = await axios.get(`${baseAPI}/bin/${endpoint}/logs`)
       return res.data
     } catch (err) {
       return err.response.data
@@ -29,7 +30,7 @@ const api = {
   },
   async getLog(mongoId) {
     try {
-      const res = await axios.get(`${base}/bin/log/${mongoId}`)
+      const res = await axios.get(`${baseAPI}/bin/log/${mongoId}`)
       return res.data
     } catch (err) {
       return err.response.data
@@ -37,7 +38,7 @@ const api = {
   },
   async removeLog(endpoint, logId, mongoId) {
     try {
-      const res = await axios.delete(`${base}/bin/${endpoint}/log/${logId}/${mongoId}`)
+      const res = await axios.delete(`${baseAPI}/bin/${endpoint}/log/${logId}/${mongoId}`)
       return res.data;
     } catch (err) {
       return err.response.data
@@ -45,7 +46,7 @@ const api = {
   },
   async removeLogs(binId, endpoint) {
     try {
-      const res = await axios.delete(`${base}/bin/${binId}/${endpoint}/log`)
+      const res = await axios.delete(`${baseAPI}/bin/${binId}/${endpoint}/log`)
       return res.data;
     } catch (err) {
       return err.response.data

@@ -33,7 +33,7 @@ export default function Logs({ logs, currentLog, handleSelectLog }) {
         {renderedLogs}
       </div>
       <div>
-        {logs.length !== 0 &&(<button onClick={handleRemoveAll}>Delete All</button>)}
+        {logs.length !== 0 &&(<button className="delete-all-logs-button" onClick={handleRemoveAll}>Delete All</button>)}
       </div>
     </div>
   )

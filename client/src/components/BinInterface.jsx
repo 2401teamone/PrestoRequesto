@@ -7,7 +7,7 @@ export default function BinInterface({ url, handleTestEvent }) {
 
   const copies = {
     curl: `curl -d '{ "name": "Han Solo" }' -H 'Content-Type: application/json' ${url}`,
-    
+
     javascript: `const headers = new Headers()
 headers.append("Content-Type", "application/json")
 
@@ -27,7 +27,7 @@ fetch("${url}", options)`,
 const data = JSON.stringify({ "name": "Han Solo" })
 
 const options = {
-  hostname: "localhost.com",
+  hostname: "prestorequesto.com",
   port: 3000,
   path: "${url.slice(21)}",
   method: "POST",
@@ -45,7 +45,7 @@ req.end()`
   return (
     <div className="bin-interface">
       <h2>Interface</h2>
-      <button onClick={handleTestEvent}>Generate Test Event</button>
+      <button className="generate-test-event-button" onClick={ handleTestEvent }>Generate Test Event</button>
       <div className="options">
         <button className="copy" onClick={() => window.navigator.clipboard.writeText(copies[current])}>
           <i className="fa-light fa-copy"></i>
