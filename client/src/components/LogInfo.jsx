@@ -51,7 +51,6 @@ export default function LogInfo({ logId, logs, setCurrentLog }) {
             </div>
             <div className="info">
               <span className="section section-headers">Headers:</span>
-              {/* <span className="headers">{log.headers ? log.headers : "N/A"}</span> */}
               <ul className="headers-list">
                 {log.headers ? (
                   Object.entries(log.headers).map(([key, value]) => (
