@@ -6,6 +6,11 @@ import api from '../api/api.js'
 
 export default function LogInfo({ logId, logs, setCurrentLog }) {
   const [log, setLog] = useState(null)
+  const [headersVisible, setHeadersVisible] = useState(false);
+
+  const toggleHeadersVisibility = () => {
+    setHeadersVisible(!headersVisible);
+  };
 
   useEffect(() => {
     const getLog = async (mongo_id) => {
@@ -28,7 +33,6 @@ export default function LogInfo({ logId, logs, setCurrentLog }) {
     }
   }, [logId, logs])
 
-
   return (
     <div className="log-info">
       <h2>HTTP Request</h2>
@@ -50,9 +54,13 @@ export default function LogInfo({ logId, logs, setCurrentLog }) {
               </span>
             </div>
             <div className="info">
-            <span className="section section-headers">Headers:</span>
-            <div className="headers-list">
-              {log.headers && (
+              <span className="section section-headers clickable"
+                    onClick={toggleHeadersVisibility}>
+                    Headers:({log.headers ? Object.keys(log.headers).length : 0})
+              </span>
+            </div>
+            <div>
+              {headersVisible && log.headers && (
                 <table className="headers-table">
                   <thead>
                     <tr>
@@ -70,7 +78,6 @@ export default function LogInfo({ logId, logs, setCurrentLog }) {
                   </tbody>
                 </table>
               )}
-            </div>
             </div>
             <div className="info">
               <span className="section section-body">Body:</span>

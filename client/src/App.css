@@ -259,6 +259,16 @@
           width: 100%;
         }
 
+        & .clickable {
+          cursor: pointer;
+          text-decoration: underline;
+          transition: color 0.3s ease;
+
+          &:hover {
+            color: #2980b9;
+          }
+        }
+
         & .headers-table {
           width: 100%;
           border-collapse: collapse;
