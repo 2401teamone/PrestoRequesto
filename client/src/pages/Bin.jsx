@@ -73,7 +73,7 @@ export default function Bin() {
         error :
         <div>
           <div className="url-provider">
-              Your Pastebin URL is <span className="url">{url}</span>
+              Your PrestoRequesto URL is <span className="url">{url}</span>
               <button className="copy" onClick={copy}><i className="fa-light fa-copy"></i> <span className="copy-notification">{copied && "copied"}</span></button>
           </div>
 
