@@ -5,7 +5,6 @@ import Logs from '../components/Logs.jsx'
 import LogInfo from '../components/LogInfo.jsx'
 import BinInterface from '../components/BinInterface.jsx'
 
-import api from '../api/api.js'
 
 export default function Bin() {
   const { endpoint } = useParams()
@@ -13,7 +12,6 @@ export default function Bin() {
   const [currentLog, setCurrentLog] = useState(null)
   const [error, setError] = useState("hold")
   const [copied, setCopied] = useState(false)
-  const [refreshFlag, setRefreshFlag] = useState(false);
   const [listening, setListening] = useState(false)
 
   const baseURL = import.meta.env.VITE_BASE_URL
@@ -69,16 +67,16 @@ export default function Bin() {
         error.length ?
         error :
         <div>
-          <div className="url-provider">
+          <div className="top box">
               Your PrestoRequesto URL is <span className="url">{url}</span>
-              <button className="copy" onClick={copy}><i className="fa-light fa-copy"></i> <span className="copy-notification">{copied && "copied"}</span></button>
+              <button className="copy" onClick={copy}><i className="wand fa-light fa-wand-magic-sparkles"></i><span className="copy-notification">{copied && "copied"}</span></button>
           </div>
 
           <div className="content">
-            <div className="left">
+            <div className="left box">
               <Logs logs={logs} currentLog={currentLog} handleSelectLog={handleSelectLog}/>
             </div>
-            <div className="right">
+            <div className="right box">
               {
                 currentLog === null ?
                 <BinInterface url={url} handleTestEvent={handleTestEvent}/> :

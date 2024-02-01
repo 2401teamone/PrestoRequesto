@@ -27,7 +27,7 @@ export default function Logs({ logs, currentLog, handleSelectLog }) {
 
   return (
     <div className="logs">
-      <h2>Logs</h2>
+      <h2 className="header">Logs</h2>
       <Search term={term} handleSearch={handleSearch}/>
       <div className="log-rows">
         {renderedLogs}

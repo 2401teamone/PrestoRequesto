@@ -15,7 +15,7 @@ const subscribe = async (req, res, next) => {
   res.writeHead(200, headers);
 
   const currentRequests = await PG.getLogsByEndpoint(endpoint);
-
+  
   const data = `data: ${JSON.stringify(currentRequests)}\n\n`
   res.write(data)
 

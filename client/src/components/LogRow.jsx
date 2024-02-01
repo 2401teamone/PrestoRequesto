@@ -19,7 +19,9 @@ export default function LogRow({ log, onClick, active }) {
       <div className="log-row-timestamp">{format(log.received_at, 'hh:mm:ssaaa')}</div>
       <div className="log-row-method">{log.method.toUpperCase()}</div>
       <div className="log-row-path">/{log.path}</div>
-      <button className="delete-row-button" onClick={event => handleDelete(event)}>Delete</button>
+      <button className="delete-row-button" onClick={event => handleDelete(event)}>
+        <i className="fa-sharp fa-light fa-trash"></i>
+      </button>
     </div>
   )
 }
