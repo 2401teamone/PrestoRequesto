@@ -15,7 +15,8 @@ export default function Bin() {
   const [copied, setCopied] = useState(false)
   const [refreshFlag, setRefreshFlag] = useState(false);
 
-  const url = `https://prestorequesto.com/endpoint/${endpoint}`
+  const baseURL = import.meta.env.VITE_BASE_URL
+  const url = `${baseURL}/endpoint/${endpoint}`
 
   useEffect(() => {
     const getLogs = async () => {
