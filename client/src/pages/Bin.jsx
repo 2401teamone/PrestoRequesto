@@ -50,7 +50,19 @@ export default function Bin() {
 
   // Test Endpoint
   const handleTestEvent = async() => {
-    await api.createLog(endpoint);
+    const headers = new Headers()
+    headers.append("Content-Type", "application/json")
+
+    const body = { "name": "Han Solo" }
+
+    const options = {
+      method: "POST",
+      headers,
+      mode: "cors",
+      body: JSON.stringify(body),
+    }
+
+    await fetch(url, options)
     handleRefresh();
   }
 
