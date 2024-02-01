@@ -1,2 +1,6 @@
 server/.env
 node_modules
+server/dist
+client/dist
+client/.env.development
+client/.env.production
