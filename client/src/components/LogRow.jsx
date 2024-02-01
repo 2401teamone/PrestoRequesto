@@ -1,11 +1,18 @@
+import { useParams } from 'wouter'
+
 import { format } from 'date-fns'
 import api from '../api/api.js'
 
-export default function LogRow({ log, onClick, active, onRefresh }) {
+export default function LogRow({ log, onClick, active }) {
+  const { endpoint } = useParams();
+
   const handleDelete = async (event) => {
     event.stopPropagation();
-    await api.removeLog(log.bin_id, log.id, log.mongo_id)
-    onRefresh();
+    await api.removeLog(
+      endpoint,
+      log.id,
+      log.mongo_id
+    )
   }
   return (
     <div className={`log-row ${active ? "active" : ""}`}  onClick={onClick}>

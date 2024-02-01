@@ -14,29 +14,25 @@ export default function Bin() {
   const [error, setError] = useState("hold")
   const [copied, setCopied] = useState(false)
   const [refreshFlag, setRefreshFlag] = useState(false);
+  const [listening, setListening] = useState(false)
 
   const baseURL = import.meta.env.VITE_BASE_URL
   const url = `${baseURL}/endpoint/${endpoint}`
 
   useEffect(() => {
-    const getLogs = async () => {
-      const res = await api.getLogs(endpoint)
-      return res
-    }
-
-    getLogs().then(({ status, message, payload }) => {
-      if (status === 200) {
+    console.log('using effect')
+    let source
+    if (!listening) {
+      source = new EventSource(`http://localhost:3000/subscribe/${endpoint}`)
+      source.onmessage = e => {
         setError("")
-        setLogs(payload.logs)
+        setLogs(JSON.parse(e.data))
       }
-      else setError(message)
-    })
-  }, [endpoint, refreshFlag])
+    }
+    setListening(true)
+    if (source) return () => source 
+  }, [endpoint, listening])
 
-  const handleRefresh = () => {
-    setCurrentLog(null);
-    setRefreshFlag(!refreshFlag);
-  };
 
   const copy = () => {
     setCopied(true)
@@ -47,6 +43,7 @@ export default function Bin() {
   }
 
   const handleSelectLog = async id => setCurrentLog(id)
+
 
   // Test Endpoint
   const handleTestEvent = async() => {
@@ -63,8 +60,8 @@ export default function Bin() {
     }
 
     await fetch(url, options)
-    handleRefresh();
   }
+
 
   return (
     <div className="bin">
@@ -79,7 +76,7 @@ export default function Bin() {
 
           <div className="content">
             <div className="left">
-              <Logs logs={logs} currentLog={currentLog} onRefresh={handleRefresh} handleSelectLog={handleSelectLog}/>
+              <Logs logs={logs} currentLog={currentLog} handleSelectLog={handleSelectLog}/>
             </div>
             <div className="right">
               {

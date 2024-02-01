@@ -1,11 +1,14 @@
 import { useState } from 'react'
+import { useParams } from 'wouter'
 import api from '../api/api.js'
 
 import LogRow from './LogRow.jsx'
 import Search from './ui/Search.jsx'
 
-export default function Logs({ logs, currentLog, handleSelectLog, onRefresh }) {
+export default function Logs({ logs, currentLog, handleSelectLog }) {
   const [term, setTerm] = useState("")
+
+  const { endpoint } = useParams()
 
   const renderedLogs = logs
     .filter(log => {
@@ -16,15 +19,11 @@ export default function Logs({ logs, currentLog, handleSelectLog, onRefresh }) {
         (log.path && log.path.includes(term))
       )
     })
-    .map(log => <LogRow key={log.id} log={log} onRefresh={onRefresh} active={currentLog === log.id} onClick={() => handleSelectLog(log.id)}/>)
+    .map(log => <LogRow key={log.id} log={log} active={currentLog === log.id} onClick={() => handleSelectLog(log.id)}/>)
 
   const handleSearch = val => setTerm(val)
 
-  const handleRemoveAll = async() => {
-    //Send an axios request to the backend to remove all logs
-    await api.removeLogs(logs[0].bin_id);
-    onRefresh();
-  }
+  const handleRemoveAll = async() => await api.removeLogs(logs[0].bin_id, endpoint)
 
   return (
     <div className="logs">
