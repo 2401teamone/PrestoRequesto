@@ -80,19 +80,16 @@ export default function LogInfo({ logId, logs, setCurrentLog }) {
               </div>
             )}
             <div className="info">
-              <span className="section section-body">Body:</span>
-              <span className="body">
-                {
-                  JSON.stringify(log.body).length > 2 ?
-                  <CodeBlock
-                    text={JSON.stringify(log.body, null, 2)}
-                    language={"JSON"}
-                  />
-                  :
-                  "N/A"
-                }
-              </span>
+              <span className="section section-body">Body: {JSON.stringify(log.body).length < 3 ? "N/A" : ''}</span>
             </div>
+            {JSON.stringify(log.body).length > 2 &&
+              (<div className="body">
+                <CodeBlock
+                  text={JSON.stringify(log.body, null, 2)}
+                  language={"JSON"}
+                />
+              </div>)
+            }
           </div>
         )
       }
