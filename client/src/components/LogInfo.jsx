@@ -59,8 +59,8 @@ export default function LogInfo({ logId, logs, setCurrentLog }) {
                     Headers:({log.headers ? Object.keys(log.headers).length : 0})
               </span>
             </div>
-            <div>
-              {headersVisible && log.headers && (
+            {headersVisible && log.headers && (
+              <div className="info scrollable-table-container">
                 <table className="headers-table">
                   <thead>
                     <tr>
@@ -77,8 +77,8 @@ export default function LogInfo({ logId, logs, setCurrentLog }) {
                     ))}
                   </tbody>
                 </table>
-              )}
-            </div>
+              </div>
+            )}
             <div className="info">
               <span className="section section-body">Body:</span>
               <span className="body">
