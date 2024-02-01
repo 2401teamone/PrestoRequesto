@@ -44,12 +44,16 @@ req.end()`
 
   return (
     <div className="bin-interface">
-      <h2>Interface</h2>
-      <button className="generate-test-event-button" onClick={ handleTestEvent }>Generate Test Event</button>
+      <div className="bin-interface-top">
+        <h2 className="header">Interface</h2>
+        <div className="bin-interface-buttons">
+          <button className="bin-interface-button generate-test-event-button" onClick={ handleTestEvent }><i className="fa-light fa-webhook"></i> Test</button>
+          <button className="bin-interface-button copy" onClick={() => window.navigator.clipboard.writeText(copies[current])}>
+            <i className="fa-light fa-copy"></i> Copy
+          </button>
+        </div>
+      </div>
       <div className="options">
-        <button className="copy" onClick={() => window.navigator.clipboard.writeText(copies[current])}>
-          <i className="fa-light fa-copy"></i>
-        </button>
         <div onClick={() => setCurrent("curl")} className="option">cURL</div>
         <div onClick={() => setCurrent("javascript")} className="option">Javascript</div>
         <div onClick={() => setCurrent("node")} className="option">Node</div>

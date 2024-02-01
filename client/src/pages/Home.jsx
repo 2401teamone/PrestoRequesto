@@ -27,8 +27,16 @@ export default function Home() {
 
   return (
     <div className="home">
-      <Button text="INITIATE BIN" handleClick={initiateBin}/>
-      {initiated && <Loading />}
+      <div className="home-content">
+        <h1 className="welcome">Welcome to Presto Requesto!</h1>
+        <p className="overview">
+           With the simple click of a button, 
+          you can create your own bin to collect
+          and review <span className="highlight">webhooks</span> and <span className="highlight">HTTP Requests</span>.
+        </p>
+        <Button text="Create Bin" handleClick={initiateBin}/>
+        {initiated && <Loading />}
+      </div>
     </div>
   )
 }

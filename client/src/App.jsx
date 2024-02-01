@@ -7,7 +7,7 @@ import Bin from './pages/Bin.jsx'
 
 function App() {
   return (
-    <div>
+    <div className="app">
       <Route path="/" component={Home}/>
       <Route path="/:endpoint" component={Bin}/>
     </div>

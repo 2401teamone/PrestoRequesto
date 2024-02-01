@@ -13,7 +13,7 @@ class PG {
   }
 
   async getLogsByBinId(binId) {
-    const getAllRequestsQuery = `SELECT * FROM log WHERE bin_id = $1;`;
+    const getAllRequestsQuery = `SELECT * FROM log WHERE bin_id = $1 ORDER BY received_at DESC;`;
     const res = await dbQuery(getAllRequestsQuery, binId);
     console.log(res, "HERE")
     return res.rows;
@@ -23,7 +23,7 @@ class PG {
     const foundBin = await this.getBin(endpoint);
     if (!foundBin) throw new AppError(404, "No bin found for that endpoint");
     
-    const getAllRequestsQuery = `SELECT * FROM log WHERE bin_id = $1;`;
+    const getAllRequestsQuery = `SELECT * FROM log WHERE bin_id = $1 ORDER BY received_at DESC;`;
     const requests = await dbQuery(getAllRequestsQuery, foundBin.id);
     return requests.rows;
   }

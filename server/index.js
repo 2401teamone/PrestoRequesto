@@ -97,6 +97,7 @@ app.get('/api/bin/log/:mongo_id', catchError(async (req, res) => {
 Delete a single request from a given bin's log
 */
 app.delete('/api/bin/:endpoint/log/:log_id/:mongo_id', catchError(async (req, res) => {
+  
   const { endpoint, log_id: logId, mongo_id: mongoId } = req.params;
   await mongo.remove("requests", mongoId);
   await PG.deleteLog(logId)
