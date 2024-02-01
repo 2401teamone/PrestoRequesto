@@ -26,6 +26,7 @@ const api = {
   },
   async getLog(mongoId) {
     const res = await axios.get(`${baseAPI}/bin/log/${mongoId}`)
+    console.log(res.data)
     return res.data
   },
   async removeLog(binId, logId, mongoId) {

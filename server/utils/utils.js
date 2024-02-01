@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const { request } = require('express');
 
 module.exports = {
   packagePayload(status, message, payload) {
@@ -14,7 +15,9 @@ module.exports = {
   },
   getJSONRequest(req) {
     const requestCopy = {...req};
-    
+
+    // console.log(requestCopy);
+
     const formatHeaders = (headers) => {
       const formattedHeaders = {};
       for (let i = 0; i < headers.length; i += 2) {
@@ -22,6 +25,16 @@ module.exports = {
       }
       return formattedHeaders;
     };
+
+    console.log({
+      method: requestCopy.method,
+      headers: formatHeaders(requestCopy.rawHeaders),
+      query: requestCopy.query,
+      params: requestCopy.params,
+      cookies: requestCopy.cookies,
+      body: requestCopy.body,
+    });
+
 
     return {
       method: requestCopy.method,
