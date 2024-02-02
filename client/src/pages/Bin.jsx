@@ -42,6 +42,7 @@ export default function Bin() {
 
   const handleSelectLog = async id => setCurrentLog(id)
 
+  const handleAnyDelete = () => setCurrentLog(null)
 
   // Test Endpoint
   const handleTestEvent = async() => {
@@ -74,7 +75,7 @@ export default function Bin() {
 
           <div className="content">
             <div className="left box">
-              <Logs logs={logs} currentLog={currentLog} handleSelectLog={handleSelectLog}/>
+              <Logs logs={logs} currentLog={currentLog} handleSelectLog={handleSelectLog} handleAnyDelete={handleAnyDelete}/>
             </div>
             <div className="right box">
               {
