@@ -3,15 +3,19 @@ POST http://localhost:3000/api/bin
 ### Test a request with a simple path
 GET http://localhost:3000/endpoint/b4cbcb14d05b41beb6a87a496628c61b/testPath
 ### Test a request with no path
-POST http://localhost:3000/endpoint/b4cbcb14d05b41beb6a87a496628c61b
+POST http://localhost:3000/endpoint/ca56f7948374ce02350f07a8c4e6337a
 ### Test a request with a multi level path
-PUT http://localhost:3000/endpoint/b4cbcb14d05b41beb6a87a496628c61b/level1/level2/level3
+PUT http://localhost:3000/endpoint/ca56f7948374ce02350f07a8c4e6337a
 content-type: application/json
 
 {
   "test": "test",
   "test2": "test2",
-  "test3": "test3"
+  "test3": "test3",
+  "test4": "test3",
+  "test5": "test3",
+  "test6": "test3",
+  "test7": "test3"
 }
 
 ### Test a non existant endpoint
@@ -30,4 +34,4 @@ DELETE http://localhost:3000/api/bin/1/log/2
 ### Delete all logs for an endpoint
 DELETE http://localhost:3000/api/bin/1/log
 ### Test QUery String
-GET http://localhost:3000/endpoint/4afcaaf93bb948b23b86ffd2dad59167/testPath?test=1&test2=2
+GET http://localhost:3000/endpoint/ca56f7948374ce02350f07a8c4e6337a/testPath?test=1&test2=2
