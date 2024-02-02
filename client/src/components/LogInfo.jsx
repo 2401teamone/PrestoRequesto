@@ -6,16 +6,14 @@ import api from '../api/api.js'
 
 export default function LogInfo({ logId, logs, setCurrentLog }) {
   const [log, setLog] = useState(null)
+
   const [headersVisible, setHeadersVisible] = useState(false);
   const [queryStringVisible, setQueryStringVisible] = useState(false);
+  const [bodyVisible, setBodyVisible] = useState(true);
 
-  const toggleHeadersVisibility = () => {
-    setHeadersVisible(!headersVisible);
-  };
-
-  const toggQueryStringVisibility = () => {
-    setQueryStringVisible(!queryStringVisible);
-  };
+  const toggleHeadersVisibility = () => setHeadersVisible(!headersVisible);
+  const toggQueryStringVisibility = () => setQueryStringVisible(!queryStringVisible);
+  const toggleBodyVisibility = () => setBodyVisible(!bodyVisible);
 
   useEffect(() => {
     const getLog = async (mongo_id) => {
@@ -100,9 +98,12 @@ export default function LogInfo({ logId, logs, setCurrentLog }) {
               </div>
             )}
             <div className="info">
-              <span className="section section-body">Body: {JSON.stringify(log.body).length < 3 ? "N/A" : ''}</span>
+              <span className={`section section-body ${JSON.stringify(log.body).length > 2 ? 'clickable' : ''}`}
+                    onClick={JSON.stringify(log.body).length > 2 ? toggleBodyVisibility : () => {}}>
+                    Body:({JSON.stringify(log.body).length < 3 ? "N/A" : (Object.keys(log.body).length)})
+              </span>
             </div>
-            {JSON.stringify(log.body).length > 2 &&
+            {JSON.stringify(log.body).length > 2 && bodyVisible &&
               (<div className="body">
                 <CodeBlock
                   text={JSON.stringify(log.body, null, 2)}
