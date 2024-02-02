@@ -5,7 +5,7 @@ import api from '../api/api.js'
 import LogRow from './LogRow.jsx'
 import Search from './ui/Search.jsx'
 
-export default function Logs({ logs, currentLog, handleSelectLog }) {
+export default function Logs({ logs, currentLog, handleSelectLog, handleAnyDelete }) {
   const [term, setTerm] = useState("")
 
   const { endpoint } = useParams()
@@ -19,11 +19,14 @@ export default function Logs({ logs, currentLog, handleSelectLog }) {
         (log.path && log.path.includes(term))
       )
     })
-    .map(log => <LogRow key={log.id} log={log} active={currentLog === log.id} onClick={() => handleSelectLog(log.id)}/>)
+    .map(log => <LogRow key={log.id} log={log} active={currentLog === log.id} onClick={() => handleSelectLog(log.id)} handleAnyDelete={handleAnyDelete}/>)
 
   const handleSearch = val => setTerm(val)
 
-  const handleRemoveAll = async() => await api.removeLogs(logs[0].bin_id, endpoint)
+  const handleRemoveAll = async() => {
+    handleAnyDelete()
+    await api.removeLogs(logs[0].bin_id, endpoint)
+  }
 
   return (
     <div className="logs">

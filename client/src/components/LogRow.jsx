@@ -3,11 +3,12 @@ import { useParams } from 'wouter'
 import { format } from 'date-fns'
 import api from '../api/api.js'
 
-export default function LogRow({ log, onClick, active }) {
+export default function LogRow({ log, onClick, active, handleAnyDelete}) {
   const { endpoint } = useParams();
 
   const handleDelete = async (event) => {
     event.stopPropagation();
+    handleAnyDelete()
     await api.removeLog(
       endpoint,
       log.id,
